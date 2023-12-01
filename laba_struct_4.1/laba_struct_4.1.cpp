@@ -35,9 +35,9 @@ void list_function()
 {
 	char c;
 	list* head = (list*)malloc(sizeof(list));
-	printf("Enter thr character: ");
-	while ((c = getchar()) == '\n') {};
-	head->field = c;
+	//printf("Enter thr character: ");
+	//while ((c = getchar()) == '\n') {};
+	//head->field = c;
 
 	head->pNext = nullptr;
 	head->pPrev = nullptr;
@@ -46,14 +46,10 @@ void list_function()
 	list*& ref_head = head;
 	list*& ref_work = work_ptr;
 	list*& ref_tail = tail;
-	add_elem_front(ref_head, ref_work, ref_tail);
-	add_elem_front(ref_head, ref_work, ref_tail);
-	add_elem_front(ref_head, ref_work, ref_tail);
-	print_list(ref_head, ref_work, ref_tail);
-	removeAt_front(ref_work);
+	
 
 
-	//menu(ref_head, ref_work, ref_tail);
+	menu(ref_head, ref_work, ref_tail);
 
 	print_list(ref_head, ref_work,ref_tail);
 }
@@ -189,7 +185,7 @@ void print_list(list*& ref_head, list*& ref_work, list*& ref_tail)
 			printf("%c  ", ptr_tail->field);
 			ptr_tail = ptr_tail->pPrev;
 		}
-
+		printf("\n");
 	}
 	printf("P.Y - %c", ref_work->field);
 }
@@ -221,8 +217,9 @@ void add_elem_front(list*& ref_head, list*& ref_work, list*& ref_tail)
 			temp_ptr->field = c;
 
 			temp_ptr->pPrev = ref_work;//
-			ref_tail = ref_work->pNext;
-			ref_tail->pNext = nullptr;
+			ref_work->pNext = temp_ptr;
+			ref_tail = temp_ptr;
+			temp_ptr->pNext = nullptr;
 		}
 		else
 		{
@@ -257,7 +254,7 @@ void move_wp_front(list*& ref_work)
 {
 	if (ref_work->pNext == nullptr)
 	{
-		printf("Work pointer is indicating on tail of list\n");
+		printf("\nWork pointer is indicating on tail of list\n");
 	}
 	else
 	{
@@ -312,7 +309,7 @@ void print_value_front(list*& ref_work)
 {
 	if (ref_work->pNext != nullptr)
 	{
-		printf("%c", ref_work->pNext->field);
+		printf("\nThe value - %c\n", ref_work->pNext->field);
 	}
 	else
 	{
@@ -329,6 +326,7 @@ list* get_elem_front(list*& ref_work)//оттестить
 		temp_ptr = ref_work->pNext;
 		printf("its value - %c\n", temp_ptr->field);
 		removeAt_front(ref_work);
+		return(temp_ptr);
 	}
 	else
 	{
