@@ -1,4 +1,4 @@
-ï»¿#define _CRT_SECURE_NO_WARNINGS
+#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 
 typedef struct list
@@ -10,19 +10,19 @@ typedef struct list
 
 
 void list_function();
-void menu(list*&, list*&, list*&);//Ð¿ÐµÑ€ÐµÐ´ÐµÐ»Ð°Ñ‚ÑŒ
-void print_list(list*&, list*&, list*&);//Ð¿ÐµÑ€ÐµÐ´ÐµÐ»Ð°Ñ‚ÑŒ
-void add_elem_front(list*&, list*&, list*&);//Ñ€Ð°Ð·Ð´Ð²Ð¾Ð¸Ñ‚ÑŒ Ð¸ Ð¿ÐµÑ€ÐµÐ´ÐµÐ»Ð°Ñ‚ÑŒ
-void check_work_pointer(list*&, list*&);//Ð¿Ñ€Ð¾Ð²ÐµÑ€ÑÐµÑ‚ Ð² ÐºÐ¾Ð½Ñ†Ðµ Ð»Ð¸ ÑÐ¿Ð¸ÑÐºÐ° Ñ€Ð°Ð±Ð¾Ñ‡Ð¸Ð¹ ÑƒÐºÐ°Ð·Ð°Ñ‚ÐµÐ»ÑŒ
+void menu(list*&, list*&, list*&);//ïåðåäåëàòü
+void print_list(list*&, list*&, list*&);//ïåðåäåëàòü
+void add_elem_front(list*&, list*&, list*&);//ðàçäâîèòü è ïåðåäåëàòü
+void check_work_pointer(list*&, list*&);//ïðîâåðÿåò â êîíöå ëè ñïèñêà ðàáî÷èé óêàçàòåëü
 void move_wp_to_head(list*&, list*&);//
-void move_wp_front(list*&);//Ñ€Ð°Ð·Ð´Ð²Ð¾Ð¸Ñ‚ÑŒ
+void move_wp_front(list*&);//ðàçäâîèòü
 
-void removeAt_front(list*&);//Ñ€Ð°Ð·Ð´Ð²Ð¾Ð¸Ñ‚ÑŒ, Ð¸ Ð¿ÐµÑ€ÐµÐ´ÐµÐ»Ð°Ñ‚ÑŒ
+void removeAt_front(list*&);//ðàçäâîèòü, è ïåðåäåëàòü
 void clear(list*&, list*&);//
 void check_on_clear(list*&);//
-void print_value_front(list*&);//Ñ€Ð°Ð·Ð´Ð²Ð¾Ð¸Ñ‚ÑŒ
-list* get_elem_front(list*&);//Ñ€Ð°Ð·Ð´Ð²Ð¾Ð¸Ñ‚ÑŒ
-void change_value_front(list*&);//Ñ€Ð°Ð·Ð´Ð²Ð¾Ð¸Ñ‚ÑŒ
+void print_value_front(list*&);//ðàçäâîèòü
+list* get_elem_front(list*&);//ðàçäâîèòü
+void change_value_front(list*&);//ðàçäâîèòü
 
 
 int main()
@@ -49,13 +49,12 @@ void list_function()
 	add_elem_front(ref_head, ref_work, ref_tail);
 	add_elem_front(ref_head, ref_work, ref_tail);
 	add_elem_front(ref_head, ref_work, ref_tail);
-	print_list(ref_head, ref_work, ref_tail);
 	removeAt_front(ref_work);
 
 
 	//menu(ref_head, ref_work, ref_tail);
 
-	print_list(ref_head, ref_work,ref_tail);
+	print_list(ref_head, ref_work);
 }
 
 void menu(list*& ref_head, list*& ref_work, list*& ref_tail)
@@ -169,7 +168,6 @@ void menu(list*& ref_head, list*& ref_work, list*& ref_tail)
 }
 
 void print_list(list*& ref_head, list*& ref_work, list*& ref_tail)
-
 {
 	list* ptr_head = ref_head;
 	list* ptr_tail = ref_tail;
@@ -184,10 +182,10 @@ void print_list(list*& ref_head, list*& ref_work, list*& ref_tail)
 		}
 		printf("\n");
 
-		while (ptr_tail != nullptr)
+		while(ptr_tail != nullptr)
 		{
-			printf("%c  ", ptr_tail->field);
-			ptr_tail = ptr_tail->pPrev;
+			printf("%c  ", ptr_head->field);
+			ptr_tail= ptr_tail->pPrev;
 		}
 
 	}
@@ -201,7 +199,7 @@ void add_elem_front(list*& ref_head, list*& ref_work, list*& ref_tail)
 	{
 		list* temp_ptr = (list*)malloc(sizeof(list));
 
-		printf("Enter the character: ");
+		printf("Enter the number: ");
 		while ((c = getchar()) == '\n') {};
 		temp_ptr->field = c;
 
@@ -228,7 +226,7 @@ void add_elem_front(list*& ref_head, list*& ref_work, list*& ref_tail)
 		{
 			list* temp_ptr = (list*)malloc(sizeof(list));
 
-			printf("Enter the character: ");
+			printf("Enter the number: ");
 			while ((c = getchar()) == '\n') {};
 			temp_ptr->field = c;
 
@@ -278,8 +276,8 @@ void removeAt_front(list*& ref_work)
 	{
 		ref_work->pNext->pNext->pPrev = ref_work;
 		ref_work->pNext = ref_work->pNext->pNext;
+		ref_work->pNext = temp_ptr;
 		free(temp_ptr);
-		
 	}
 	else
 	{
@@ -292,6 +290,7 @@ void clear(list*& ref_head, list*& ref_work)
 	move_wp_to_head(ref_head, ref_work);
 	while (ref_head->pNext != nullptr)
 	{
+
 		removeAt_front(ref_work);
 	}
 	ref_head->field = 0;
@@ -320,15 +319,12 @@ void print_value_front(list*& ref_work)
 	}
 }
 
-list* get_elem_front(list*& ref_work)//Ð¾Ñ‚Ñ‚ÐµÑÑ‚Ð¸Ñ‚ÑŒ
+list* get_elem_front(list*& ref_work)
 {
-	list* temp_ptr = (list*)malloc(sizeof(list));
 	if (ref_work->pNext != nullptr)
 	{
-		printf("\nThe element is taken\n");
-		temp_ptr = ref_work->pNext;
-		printf("its value - %c\n", temp_ptr->field);
-		removeAt_front(ref_work);
+		printf("\nThe element is taken, its value - %c\n", ref_work->field);
+		return(ref_work->pNext);
 	}
 	else
 	{

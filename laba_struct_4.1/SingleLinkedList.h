@@ -1,61 +1,40 @@
-﻿#define _CRT_SECURE_NO_WARNINGS
-#include <iostream>
+#pragma once
 
 typedef struct list
 {
 	char field;
 	list* pNext;
-	list* pPrev;
+
 };
 
 
 void list_function();
-void menu(list*&, list*&, list*&);//переделать
-void print_list(list*&, list*&, list*&);//переделать
-void add_elem_front(list*&, list*&, list*&);//раздвоить и переделать
-void check_work_pointer(list*&, list*&);//проверяет в конце ли списка рабочий указатель
+void menu(list*&, list*&, list*&);//���� ���������
+void print_list(list*&, list*&);//
+void add_elem(list*&, list*&, list*&);//
+void check_work_pointer(list*&, list*&);//��������� � ����� �� ������ ������� ���������
 void move_wp_to_head(list*&, list*&);//
-void move_wp_front(list*&);//раздвоить
-
-void removeAt_front(list*&);//раздвоить, и переделать
+void move_wp(list*&);//
+void removeAt(list*&);
 void clear(list*&, list*&);//
 void check_on_clear(list*&);//
-void print_value_front(list*&);//раздвоить
-list* get_elem_front(list*&);//раздвоить
-void change_value_front(list*&);//раздвоить
+void print_value(list*&);//
+list* get_elem(list*&);//
+void change_value(list*&);
 
 
-int main()
-{
-	list_function();
-}
 
 
 void list_function()
 {
-	char c;
 	list* head = (list*)malloc(sizeof(list));
-	printf("Enter thr character: ");
-	while ((c = getchar()) == '\n') {};
-	head->field = c;
-
 	head->pNext = nullptr;
-	head->pPrev = nullptr;
 	list* tail = head;
 	list* work_ptr = head;
 	list*& ref_head = head;
 	list*& ref_work = work_ptr;
 	list*& ref_tail = tail;
-	add_elem_front(ref_head, ref_work, ref_tail);
-	add_elem_front(ref_head, ref_work, ref_tail);
-	add_elem_front(ref_head, ref_work, ref_tail);
-	print_list(ref_head, ref_work, ref_tail);
-	removeAt_front(ref_work);
-
-
-	//menu(ref_head, ref_work, ref_tail);
-
-	print_list(ref_head, ref_work,ref_tail);
+	menu(ref_head, ref_work, ref_tail);
 }
 
 void menu(list*& ref_head, list*& ref_work, list*& ref_tail)
@@ -71,7 +50,7 @@ void menu(list*& ref_head, list*& ref_work, list*& ref_tail)
 			"12. Print the list\n13. Finish working with list\n14. Finish the programm\n"));
 
 		printf("\nEnter the number of function that you want to start: ");
-		scanf("%d", &i);
+		scanf_s("%d", &i);
 
 		switch (i)
 		{
@@ -111,43 +90,43 @@ void menu(list*& ref_head, list*& ref_work, list*& ref_tail)
 		}
 		case(6):
 		{
-			if (flag_on_start)move_wp_front(ref_work);
+			if (flag_on_start)move_wp(ref_work);
 			else printf("\nStart working with list (press 1)!\n");
 			break;
 		}
 		case(7):
 		{
-			if (flag_on_start)print_value_front(ref_work);
+			if (flag_on_start)print_value(ref_work);
 			else printf("\nStart working with list (press 1)!\n");
 			break;
 		}
 		case(8):
 		{
-			if (flag_on_start)removeAt_front(ref_work);
+			if (flag_on_start)removeAt(ref_work);
 			else printf("\nStart working with list (press 1)!\n");
 			break;
 		}
 		case(9):
 		{
-			if (flag_on_start)get_elem_front(ref_work);
+			if (flag_on_start)get_elem(ref_work);
 			else printf("\nStart working with list (press 1)!\n");
 			break;
 		}
 		case(10):
 		{
-			if (flag_on_start)change_value_front(ref_work);
+			if (flag_on_start)change_value(ref_work);
 			else printf("\nStart working with list (press 1)!\n");
 			break;
 		}
 		case(11):
 		{
-			if (flag_on_start)add_elem_front(ref_head, ref_work, ref_tail);
+			if (flag_on_start)add_elem(ref_head, ref_work, ref_tail);
 			else printf("\nStart working with list (press 1)!\n");
 			break;
 		}
 		case(12):
 		{
-			if (flag_on_start)print_list(ref_head, ref_work, ref_tail);
+			if (flag_on_start)print_list(ref_head,ref_work);
 			else printf("\nStart working with list (press 1)!\n");
 			break;
 		}
@@ -168,45 +147,31 @@ void menu(list*& ref_head, list*& ref_work, list*& ref_tail)
 	}
 }
 
-void print_list(list*& ref_head, list*& ref_work, list*& ref_tail)
-
+void print_list(list*& ref_head, list*& ref_work)
 {
-	list* ptr_head = ref_head;
-	list* ptr_tail = ref_tail;
-
+	list* ptr = ref_head;
 	printf("\n");
-	if (ptr_head->pNext == nullptr && ptr_head->field == 0) check_on_clear(ref_head);
+	if (ptr->pNext == nullptr && ptr->field == 0) check_on_clear(ref_head);
 	else {
-		while (ptr_head != nullptr)
+		while (ptr != nullptr)
 		{
-			printf("%c  ", ptr_head->field);
-			ptr_head = ptr_head->pNext;
+			printf("%c  ", ptr->field);
+			ptr = ptr->pNext;
 		}
 		printf("\n");
-
-		while (ptr_tail != nullptr)
-		{
-			printf("%c  ", ptr_tail->field);
-			ptr_tail = ptr_tail->pPrev;
-		}
-
 	}
 	printf("P.Y - %c", ref_work->field);
 }
 
-void add_elem_front(list*& ref_head, list*& ref_work, list*& ref_tail)
+void add_elem(list*& ref_head, list*& ref_work, list*& ref_tail)
 {
 	char c;
 	if (ref_head == ref_tail)
 	{
-		list* temp_ptr = (list*)malloc(sizeof(list));
-
-		printf("Enter the character: ");
+		ref_work->pNext = (list*)malloc(sizeof(list));
+		printf("Enter the number: ");
 		while ((c = getchar()) == '\n') {};
-		temp_ptr->field = c;
-
-		temp_ptr->pPrev = ref_work;//
-		ref_work->pNext = temp_ptr;
+		ref_work->pNext->field = c;
 		ref_tail = ref_work->pNext;
 		ref_tail->pNext = nullptr;
 	}
@@ -214,29 +179,21 @@ void add_elem_front(list*& ref_head, list*& ref_work, list*& ref_tail)
 	{
 		if (ref_work == ref_tail)
 		{
-			list* temp_ptr = (list*)malloc(sizeof(list));
-
+			ref_work->pNext = (list*)malloc(sizeof(list));
 			printf("Enter the number: ");
 			while ((c = getchar()) == '\n') {};
-			temp_ptr->field = c;
-
-			temp_ptr->pPrev = ref_work;//
+			ref_work->pNext->field = c;
 			ref_tail = ref_work->pNext;
 			ref_tail->pNext = nullptr;
 		}
 		else
 		{
 			list* temp_ptr = (list*)malloc(sizeof(list));
-
-			printf("Enter the character: ");
+			printf("Enter the number: ");
 			while ((c = getchar()) == '\n') {};
 			temp_ptr->field = c;
-
-			temp_ptr->pPrev = ref_work;
 			temp_ptr->pNext = ref_work->pNext;
-			ref_work->pNext->pPrev = temp_ptr;
 			ref_work->pNext = temp_ptr;
-
 		}
 	}
 }
@@ -253,7 +210,7 @@ void check_work_pointer(list*& ref_work, list*& ref_tail)
 	}
 }
 
-void move_wp_front(list*& ref_work)
+void move_wp(list*& ref_work)
 {
 	if (ref_work->pNext == nullptr)
 	{
@@ -270,16 +227,14 @@ void move_wp_to_head(list*& ref_head, list*& ref_work)
 	ref_work = ref_head;
 }
 
-void removeAt_front(list*& ref_work)
+void removeAt(list*& ref_work)
 {
 	list* temp_ptr = (list*)malloc(sizeof(list));
 	temp_ptr = ref_work->pNext;
 	if (ref_work->pNext != nullptr)
 	{
-		ref_work->pNext->pNext->pPrev = ref_work;
 		ref_work->pNext = ref_work->pNext->pNext;
 		free(temp_ptr);
-		
 	}
 	else
 	{
@@ -292,7 +247,8 @@ void clear(list*& ref_head, list*& ref_work)
 	move_wp_to_head(ref_head, ref_work);
 	while (ref_head->pNext != nullptr)
 	{
-		removeAt_front(ref_work);
+
+		removeAt(ref_work);
 	}
 	ref_head->field = 0;
 }
@@ -308,7 +264,7 @@ void check_on_clear(list*& ref_head)
 	}
 }
 
-void print_value_front(list*& ref_work)
+void print_value(list*& ref_work)
 {
 	if (ref_work->pNext != nullptr)
 	{
@@ -320,15 +276,12 @@ void print_value_front(list*& ref_work)
 	}
 }
 
-list* get_elem_front(list*& ref_work)//оттестить
+list* get_elem(list*& ref_work)
 {
-	list* temp_ptr = (list*)malloc(sizeof(list));
 	if (ref_work->pNext != nullptr)
 	{
-		printf("\nThe element is taken\n");
-		temp_ptr = ref_work->pNext;
-		printf("its value - %c\n", temp_ptr->field);
-		removeAt_front(ref_work);
+		printf("\nThe element is taken, its value - %c\n", ref_work->field);
+		return(ref_work->pNext);
 	}
 	else
 	{
@@ -336,7 +289,7 @@ list* get_elem_front(list*& ref_work)//оттестить
 	}
 }
 
-void change_value_front(list*& ref_work)
+void change_value(list*& ref_work)
 {
 	char c = 10;
 	if (ref_work->pNext != nullptr)
